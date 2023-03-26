@@ -21,7 +21,7 @@ def custom_components_pipeline(input_1: str = 'gs://ml-auto-pipelines-bucket/inp
     read_lines_task01 = kfp.components.load_component_from_url(
         url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     
-    read_lines_task01(input_1=input_1, output_1=output_1, parameter_1=parameter_1)
+    read_lines_task01(input_1=input_1, output_1=output_1, parameter_1=parameter_1) 
 
 
 # V1 Compiler -> it works...!
