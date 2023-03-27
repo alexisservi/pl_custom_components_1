@@ -42,7 +42,7 @@ def get_input_parameters(input_path_1: str,
             else:
                 path_writer.write(str(k) + "\n")
 
-    input_path_1 = str(out_1.path)
+    input_path_1 = "file1.txt" #str(out_1.path)
     from collections import namedtuple
     example_output = namedtuple('ExampleOutputs', ['lines_to_read_1', 'input_path_1'])
     return example_output(lines_to_read_1, input_path_1)
