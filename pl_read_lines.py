@@ -13,7 +13,7 @@ URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reade
 @dsl.component()
 def get_input_parameters(input_path_1: str, 
                          lines_to_read_1: int,
-                         out_1: OutputPath("txt")) -> NamedTuple(
+                         out_1: comp.OutputPath(str)) -> NamedTuple(
   'ExampleOutputs',
   [
     ('lines_to_read_1', int)
