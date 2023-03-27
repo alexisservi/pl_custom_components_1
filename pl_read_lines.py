@@ -22,7 +22,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
                                lines_to_read_1: int = 5):
 
     
-    inp_comp = get_input_parameters(input_path_1, output_path_1, lines_to_read_1)
+    inp_comp = get_input_parameters(input_path_1=input_path_1, output_path_1=output_path_1, lines_to_read_1=lines_to_read_1)
     read_lines_task01 = kfp.components.load_component_from_url(
         url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     
