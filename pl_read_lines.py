@@ -12,14 +12,8 @@ URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reade
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
 def get_input_parameters(input_path_1: str, 
-                         output_path_1: str,
-                         lines_to_read_1: int) -> NamedTuple(
-  'ExampleOutputs',
-  [
-    ('input_path_1', str),
-    ('output_path_1', str),
-    ('lines_to_read_1', int)
-  ]):
+                         output_path_1: Output[comp.OutputPath],
+                         lines_to_read_1: int):
     
     
     component_outputs = {"input_path_1": input_path_1, 
@@ -30,7 +24,7 @@ def get_input_parameters(input_path_1: str,
     
     from collections import namedtuple
     example_output = namedtuple('ExampleOutputs', ['input_path_1', 'output_path_1', 'lines_to_read_1'])
-    return example_output(input_path_1, output_path_1, lines_to_read_1)
+    return example_output(input_path_1, input_path_1, lines_to_read_1)
 
 #---------------------------------------------------------------------------------------------------
 @dsl.pipeline(name='custom-components-v1', description='A pipeline with custom components')
