@@ -11,7 +11,7 @@ URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reade
 @dsl.component()
 def get_input_parameters(input_path_1: str, 
                          output_path_1: str,
-                         lines_to_read_1: int) -> str:
+                         lines_to_read_1: int) -> dict:
     component_outputs = {"input_path_1": input_path_1, "lines_to_read_1": lines_to_read_1}
     print("component_outputs: {}".format(component_outputs))
     return component_outputs
