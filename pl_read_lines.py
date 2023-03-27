@@ -10,7 +10,7 @@ from kfp.v2.dsl import (
     Output,
     Dataset,
     Metrics,
-    InputPath, InputTextFile, OutputPath, OutputTextFile)
+    InputPath, OutputPath, )
 from typing import NamedTuple
 
 
