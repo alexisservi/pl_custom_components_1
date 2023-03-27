@@ -3,8 +3,14 @@ import os
 import kfp
 from kfp import dsl
 from kfp import compiler
-import kfp.components as comp
-from kfp.components import InputPath, InputTextFile, OutputPath, OutputTextFile
+#import kfp.components as comp
+from kfp.v2.dsl import (
+    component,
+    Input,
+    Output,
+    Dataset,
+    Metrics,
+    InputPath, InputTextFile, OutputPath, OutputTextFile)
 from typing import NamedTuple
 
 
