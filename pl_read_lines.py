@@ -12,10 +12,10 @@ URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reade
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
 def get_input_parameters(input_path_1: str, 
-                         lines_to_read_1: int) -> NamedTuple(
+                         lines_to_read_1: int,
+                         out_1: OutputPath("txt")) -> NamedTuple(
   'ExampleOutputs',
   [
-    ('input_path_1', InputPath()),
     ('lines_to_read_1', int)
   ]):
     
@@ -26,10 +26,12 @@ def get_input_parameters(input_path_1: str,
 
     print("component_outputs: {}".format(component_outputs))
     """
+    with open(out_1.path, 'w') as path_writer:
+        path_writer.write(input_path_1)
 
     from collections import namedtuple
-    example_output = namedtuple('ExampleOutputs', ['input_path_1', 'lines_to_read_1'])
-    return example_output(input_path_1, lines_to_read_1)
+    example_output = namedtuple('ExampleOutputs', ['lines_to_read_1'])
+    return example_output(lines_to_read_1)
 
 #---------------------------------------------------------------------------------------------------
 @dsl.pipeline(name='custom-components-v1', description='A pipeline with custom components')
@@ -38,12 +40,12 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
                                lines_to_read_1: int = 5):
 
     
-    inp_comp = get_input_parameters(input_path_1=input_path_1, output_path_1=output_path_1, lines_to_read_1=lines_to_read_1)
+    inp_comp = get_input_parameters(input_path_1=input_path_1, lines_to_read_1=lines_to_read_1)
     
     read_lines_task01 = kfp.components.load_component_from_url(
         url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     
-    read_lines_task01(input_1=inp_comp.outputs["input_path_1"],
+    read_lines_task01(input_1=inp_comp.outputs["out_1"],
                       #output_1= inp_comp.outputs["output_path_1"],
                       parameter_1=inp_comp.outputs["lines_to_read_1"]) 
 
