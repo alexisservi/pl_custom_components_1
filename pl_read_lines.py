@@ -59,7 +59,8 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     read_lines_task01 = kfp.components.load_component_from_url(
         url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     
-    read_lines_task01(input_1=inp_comp.outputs["input_path_1"],
+    test_input_string = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt'
+    read_lines_task01(input_1=test_input_string, #inp_comp.outputs["input_path_1"],
                       #output_1= inp_comp.outputs["output_path_1"],
                       parameter_1=inp_comp.outputs["lines_to_read_1"]) 
 
