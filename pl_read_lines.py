@@ -17,7 +17,7 @@ def get_input_parameters(input_path_1: str,
   'ExampleOutputs',
   [
     ('input_path_1', str),
-    ('output_path_1', str)
+    ('output_path_1', str),
     ('lines_to_read_1', int)
   ]):
     
