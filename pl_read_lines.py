@@ -4,6 +4,7 @@ import kfp
 from kfp import dsl
 from kfp import compiler
 import kfp.components as comp
+from typing import NamedTuple
 
 
 URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reader-writer/kubeflow_component_spec.yaml'
@@ -11,10 +12,22 @@ URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reade
 @dsl.component()
 def get_input_parameters(input_path_1: str, 
                          output_path_1: str,
-                         lines_to_read_1: int) -> dict:
+                         lines_to_read_1: int) -> NamedTuple(
+  'ExampleOutputs',
+  [
+    ('input_path_1', str),
+    ('lines_to_read_1', int)
+  ]):
+    
+    
     component_outputs = {"input_path_1": input_path_1, "lines_to_read_1": lines_to_read_1}
+
+
     print("component_outputs: {}".format(component_outputs))
-    return component_outputs
+    
+    from collections import namedtuple
+    example_output = namedtuple('ExampleOutputs', ['input_path_1', 'lines_to_read_1'])
+    return example_output(input_path_1, lines_to_read_1)
 
 @dsl.pipeline(name='custom-components-v1', description='A pipeline with custom components')
 def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt',
