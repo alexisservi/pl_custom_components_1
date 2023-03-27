@@ -15,7 +15,7 @@ def get_input_parameters(input_path_1: str,
                          lines_to_read_1: int) -> NamedTuple(
   'ExampleOutputs',
   [
-    ('input_path_1', comp.InputPath()),
+    ('input_path_1', InputPath()),
     ('lines_to_read_1', int)
   ]):
     
