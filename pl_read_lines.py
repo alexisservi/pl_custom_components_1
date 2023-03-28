@@ -58,7 +58,7 @@ def file_writer(lines_to_write_1: int,
   ]):
     
     N_LINES_TO_WRITE = 20
-    with open(out_file_1.path, 'w') as path_writer:
+    with open(out_file_1, 'w') as path_writer:
         for k in range(lines_to_write_1):
             if k == 0:
                 path_writer.write("Test file writing\n")
