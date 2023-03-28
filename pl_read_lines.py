@@ -81,7 +81,7 @@ def input_file_reader(file_path_1: InputPath(),
   ]):
     
     with open(file_path_1, 'r') as path_reader:
-        for k, line in path_reader.readlines():
+        for k, line in enumerate(path_reader.readlines()):
             print("LINE: {}".format(line))
             if k == (lines_to_read - 1):
                 break
