@@ -80,13 +80,12 @@ def input_file_reader(file_path_1: InputPath(),
     ('test_string_out', str)
   ]):
     
-    with open(file_path_1.path, 'r') as path_reader:
+    with open(file_path_1, 'r') as path_reader:
         for k, line in path_reader.readlines():
             print("LINE: {}".format(line))
             if k == (lines_to_read - 1):
                 break
 
-    input_path_1 = "file1.txt" #str(out_1.path)
     from collections import namedtuple
     example_output = namedtuple('ExampleOutputs', ['test_int_out', 'test_string_out'])
     return example_output(29, "produce_file_output test string")
