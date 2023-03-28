@@ -96,19 +96,25 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
                                output_path_1: str = 'gs://ml-auto-pipelines-bucket/inputs/test_output_lines.txt',
                                lines_to_write_1: int = 37):
 
-    
+    """
+    #--------------------------
+    # START: Testing pasing inputs and outputs with Python function based components
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
     
+    file_reader_task = input_file_reader(file_path_1=file_writer_task.outputs["out_file_1"], 
+                                         lines_to_read=file_writer_task.outputs["lines_to_read"])
+    
+    # END: Testing pasing inputs and outputs with Python function based components -> It works...
+    #--------------------------
     """
+
+    file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
     read_lines_task01 = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     
     test_input_string = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt'
-    read_lines_task01(input_1=test_input_string, # inp_comp.outputs["out_1"],
-                      #output_1= inp_comp.outputs["output_path_1"],
-                      parameter_1=inp_comp.outputs["lines_to_read_1"])
-    """
-    file_reader_task = input_file_reader(file_path_1=file_writer_task.outputs["out_file_1"], 
-                                         lines_to_read=file_writer_task.outputs["lines_to_read"])
+    read_lines_task01(input_1=file_writer_task.outputs["out_file_1"], # inp_comp.outputs["out_1"],
+                      parameter_1=file_writer_task.outputs["lines_to_read"])
+    
 
 
 # V1 Compiler -> it works...!
