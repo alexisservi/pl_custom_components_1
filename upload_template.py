@@ -4,7 +4,7 @@ client = RegistryClient(host="https://us-central1-kfp.pkg.dev/{}/ml-automation-k
 
 
 #V1 Compiler -> it works...!
-templateName, versionName = client.upload_pipeline(
+templateName, versionName = client.upload_pipeline( 
   file_name="custom_components_pipeline.yaml",
   tags=["v1", "latest"],
   extra_headers={"description":"This is an example pipeline template. Alexis"})
