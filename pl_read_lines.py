@@ -14,8 +14,8 @@ from kfp.v2.dsl import (
 from typing import NamedTuple
 
 
-URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reader-writer/kubeflow_component_spec.yaml'
-
+#URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reader-writer/kubeflow_component_spec.yaml'
+URL_READ_LINES_COMP = "https://storage.googleapis.com/ml-auto-pipelines-bucket/components-yamls/line-reader-writer/kubeflow_component_spec.yaml"
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
 def get_input_parameters(input_path_1: str, 
