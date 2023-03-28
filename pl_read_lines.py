@@ -50,7 +50,7 @@ def get_input_parameters(input_path_1: str,
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
 def file_writer(lines_to_write_1: int,
-                out_file_1: OutputPath()) -> NamedTuple(
+                out_file_1: OutputPath("txt")) -> NamedTuple(
   'ExampleOutputs',
   [
     ('lines_to_read', int),
