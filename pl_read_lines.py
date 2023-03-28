@@ -72,7 +72,7 @@ def file_writer(lines_to_write_1: int,
 
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
-def input_file_reader(file_path_1: InputPath,
+def input_file_reader(file_path_1: InputPath(),
                         lines_to_read: int) -> NamedTuple(
   'ExampleOutputs',
   [
