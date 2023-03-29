@@ -117,7 +117,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     
 #------------------------------------------
 # Compile pipeline
-# V1 Compiler -> it works...
+# V1 Compiler -> it works... 
 compiler.Compiler().compile(
     pipeline_func=custom_components_pipeline,
     package_path='custom_components_pipeline.yaml', 
