@@ -21,7 +21,7 @@ cd ..
 #pip install --pre kfp --upgrade
 pip install google-cloud-aiplatform
 pip install --pre kfp
-
+pip install --upgrade google-cloud-pipeline-components
 
 # Configure GCP permisions
 #https://cloud.google.com/vertex-ai/docs/pipelines/create-pipeline-template#configuring_permissions
