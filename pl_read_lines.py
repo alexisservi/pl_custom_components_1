@@ -88,8 +88,10 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     # Create a custom training job from component
     file_writer_task_2 = file_writer(lines_to_write_1=lines_to_write_1)
     read_lines_comp = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
+    read_lines_task = read_lines_comp(input_1=file_writer_task.outputs["out_file_1"], # 
+                                        parameter_1=file_writer_task.outputs["lines_to_read"])    
     custom_training_job_comp = create_custom_training_job_from_component(
-        read_lines_comp, # lines_to_write_1=lines_to_write_1,), #file_writer,
+        read_lines_task, # lines_to_write_1=lines_to_write_1,), #file_writer,
         display_name = 'Custom Training Job -> with custom machine and GPU',
         machine_type = 'n1-standard-4', 
         accelerator_type='NVIDIA_TESLA_T4', # https://cloud.google.com/vertex-ai/docs/training/configure-compute#specifying_gpus
@@ -97,7 +99,6 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     )
 
     custom_training_job_task = custom_training_job_comp(
-        input_1=file_writer_task_2.outputs["out_file_1"], parameter_1=file_writer_task_2.outputs["lines_to_read"],
         project='almacafe-ml-poc',
         location='us-central1',
     )
