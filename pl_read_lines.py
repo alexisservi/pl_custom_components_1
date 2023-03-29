@@ -18,34 +18,9 @@ from typing import NamedTuple
 URL_READ_LINES_COMP = "https://storage.googleapis.com/ml-auto-pipelines-bucket/components-yamls/line-reader-writer/kubeflow_component_spec.yaml"
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
-def get_input_parameters(input_path_1: str, 
-                         lines_to_read_1: int,
-                         out_1: OutputPath()) -> NamedTuple(
-  'ExampleOutputs',
-  [
-    ('lines_to_read_1', int),
-    ('input_path_1', str)
-  ]):
-    
-    """
-    component_outputs = {"input_path_1": input_path_1, 
-                         "output_path_1": output_path_1,
-                         "lines_to_read_1": lines_to_read_1}
-
-    print("component_outputs: {}".format(component_outputs))
-    """
-    N_LINES_TO_WRITE = 20
-    with open(out_1.path, 'w') as path_writer:
-        for k in range(N_LINES_TO_WRITE):
-            if k == 0:
-                path_writer.write(input_path_1)
-            else:
-                path_writer.write(str(k) + "\n")
-
-    input_path_1 = "file1.txt" #str(out_1.path)
-    from collections import namedtuple
-    example_output = namedtuple('ExampleOutputs', ['lines_to_read_1', 'input_path_1'])
-    return example_output(lines_to_read_1, input_path_1)
+def print_text(text: str) -> str:
+    print(text)
+    return text
 
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
@@ -77,7 +52,7 @@ def input_file_reader(file_path_1: InputPath(),
   'ExampleOutputs',
   [
     ('test_int_out', int),
-    ('test_string_out', str)
+    ('publish_model_cmd', str)
   ]):
     
     with open(file_path_1, 'r') as path_reader:
@@ -87,8 +62,8 @@ def input_file_reader(file_path_1: InputPath(),
                 break
 
     from collections import namedtuple
-    example_output = namedtuple('ExampleOutputs', ['test_int_out', 'test_string_out'])
-    return example_output(29, "produce_file_output test string")
+    example_output = namedtuple('ExampleOutputs', ['test_int_out', 'publish_model_cmd'])
+    return example_output(29, "Publish model")
 
 #---------------------------------------------------------------------------------------------------
 @dsl.pipeline(name='custom-components-v1', description='A pipeline with custom components')
@@ -96,7 +71,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
                                output_path_1: str = 'gs://ml-auto-pipelines-bucket/inputs/test_output_lines.txt',
                                lines_to_write_1: int = 37):
 
-    """
+    
     #--------------------------
     # START: Testing pasing inputs and outputs with Python function based components
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
@@ -106,14 +81,24 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     
     # END: Testing pasing inputs and outputs with Python function based components -> It works...
     #--------------------------
-    """
+    
 
+    """
+    #--------------------------
+    # START: Using Docker based defined component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1) 
     read_lines_task01 = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     
     test_input_string = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt'
     read_lines_task01(input_1=file_writer_task.outputs["out_file_1"], # 
                       parameter_1=file_writer_task.outputs["lines_to_read"])
+    # END: Using Docker based defined component -> It works...
+    #--------------------------
+    """
+    
+    # Condition task excecution
+    with dsl.Condition(file_reader_task.outputs["publish_model_cmd"] == "Publish model"):
+        conditional_task = print_text(text=file_reader_task.outputs["publish_model_cmd"])
     
 #------------------------------------------
 # Compile pipeline
