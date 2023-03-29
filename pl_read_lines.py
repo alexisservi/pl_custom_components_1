@@ -97,8 +97,8 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     )
 
     custom_training_job_task = custom_training_job_comp(
-        input_1=file_writer_task_2.outputs["out_file_1"], # 
-        parameter_1=file_writer_task_2.outputs["lines_to_read"],
+        pipelinechannel--input_1=file_writer_task_2.outputs["out_file_1"], # 
+        pipelinechannel--parameter_1=file_writer_task_2.outputs["lines_to_read"],
         project='almacafe-ml-poc',
         location='us-central1',
     )
