@@ -97,6 +97,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     #--------------------------
     """
 
+    """
     #--------------------------
     # START: Create a custom training job from component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
@@ -107,29 +108,23 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
         project='almacafe-ml-poc',
         location='us-central1',
     )
-
-    custom_training_job_task2 = custom_training_job_comp(
-        input_1=file_writer_task.outputs["out_file_1"], # 
-        parameter_1=file_writer_task.outputs["lines_to_read"],
-        project='almacafe-ml-poc',
-        location='us-central1',
-    )
     # END: Create a custom training job from component
     #--------------------------
-
-
     """
+
+
+    
     #--------------------------
     # START: Using Docker based defined component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1) 
-    read_lines_comp = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
+    #read_lines_comp = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     
     test_input_string = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt'
     read_lines_task01 = read_lines_comp(input_1=file_writer_task.outputs["out_file_1"], # 
                                         parameter_1=file_writer_task.outputs["lines_to_read"])
     # END: Using Docker based defined component -> It works...
     #--------------------------
-    """
+    
     
     """
     #--------------------------
