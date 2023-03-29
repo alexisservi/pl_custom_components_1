@@ -113,7 +113,6 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     """
 
 
-    
     #--------------------------
     # START: Using Docker based defined component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1) 
