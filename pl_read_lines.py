@@ -77,8 +77,8 @@ custom_training_job_comp = create_custom_training_job_from_component(
     accelerator_count='1'
 )
 
-print(read_lines_comp)
-print(custom_training_job_comp)
+print(repr(read_lines_comp))
+print(repr(custom_training_job_comp))
 #---------------------------------------------------------------------------------------------------
 @dsl.pipeline(name='custom-components-v1', description='A pipeline with custom components')
 def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt',
