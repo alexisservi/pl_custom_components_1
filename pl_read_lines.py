@@ -115,9 +115,9 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     read_lines_task01(input_1=file_writer_task.outputs["out_file_1"], # inp_comp.outputs["out_1"],
                       parameter_1=file_writer_task.outputs["lines_to_read"])
     
-
-
-# V1 Compiler -> it works...!
+#------------------------------------------
+# Compile pipeline
+# V1 Compiler -> it works...
 compiler.Compiler().compile(
     pipeline_func=custom_components_pipeline,
     package_path='custom_components_pipeline.yaml')
