@@ -20,9 +20,9 @@ URL_READ_LINES_COMP = "https://storage.googleapis.com/ml-auto-pipelines-bucket/c
 
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
-def print_text(text: str) -> str:
-    print(text)
-    return text
+def print_text(text1: str, text2: str) -> str:
+    print("text1: {}; text2: {}".format(text1, text2))
+    return text1
 
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
@@ -68,12 +68,24 @@ def input_file_reader(file_path_1: InputPath(),
     return example_output(29, "Publish model")
 
 #---------------------------------------------------------------------------------------------------
+read_lines_comp = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
+custom_training_job_comp = create_custom_training_job_from_component(
+    read_lines_comp, # lines_to_write_1=lines_to_write_1,), #file_writer,
+    display_name = 'Custom Training Job -> with custom machine and GPU',
+    machine_type = 'n1-standard-4', 
+    accelerator_type='NVIDIA_TESLA_T4', # https://cloud.google.com/vertex-ai/docs/training/configure-compute#specifying_gpus
+    accelerator_count='1'
+)
+
+print(read_lines_comp)
+print(custom_training_job_comp)
+#---------------------------------------------------------------------------------------------------
 @dsl.pipeline(name='custom-components-v1', description='A pipeline with custom components')
 def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt',
                                output_path_1: str = 'gs://ml-auto-pipelines-bucket/inputs/test_output_lines.txt',
                                lines_to_write_1: int = 37):
 
-    
+    """
     #--------------------------
     # START: Testing pasing inputs and outputs with Python function based components
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
@@ -83,25 +95,20 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     
     # END: Testing pasing inputs and outputs with Python function based components -> It works...
     #--------------------------
+    """
 
-
-    # Create a custom training job from component
-    file_writer_task_2 = file_writer(lines_to_write_1=lines_to_write_1)
-    read_lines_comp = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
-    custom_training_job_comp = create_custom_training_job_from_component(
-        read_lines_comp, # lines_to_write_1=lines_to_write_1,), #file_writer,
-        display_name = 'Custom Training Job -> with custom machine and GPU',
-        machine_type = 'n1-standard-4', 
-        accelerator_type='NVIDIA_TESLA_T4', # https://cloud.google.com/vertex-ai/docs/training/configure-compute#specifying_gpus
-        accelerator_count='1'
-    )
+    #--------------------------
+    # START: Create a custom training job from component
+    file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
 
     custom_training_job_task = custom_training_job_comp(
-        pipelinechannel--input_1=file_writer_task_2.outputs["out_file_1"], # 
-        pipelinechannel--parameter_1=file_writer_task_2.outputs["lines_to_read"],
+        input_1=file_writer_task.outputs["out_file_1"], # 
+        parameter_1=file_writer_task.outputs["lines_to_read"],
         project='almacafe-ml-poc',
         location='us-central1',
     )
+    # END: Create a custom training job from component
+    #--------------------------
 
 
     """
@@ -117,10 +124,14 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     #--------------------------
     """
     
-    
-    # Condition task excecution
+    """
+    #--------------------------
+    # START: Condition task excecution
     with dsl.Condition(file_reader_task.outputs["publish_model_cmd"] == "Publish model"):
         conditional_task = print_text(text=file_reader_task.outputs["publish_model_cmd"])
+    # END: Condition task excecution
+    #--------------------------
+    """
     
 #------------------------------------------
 # Compile pipeline
