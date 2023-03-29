@@ -17,6 +17,7 @@ from typing import NamedTuple
 
 #URL_READ_LINES_COMP = 'gs://ml-auto-pipelines-bucket/components-yamls/line-reader-writer/kubeflow_component_spec.yaml'
 URL_READ_LINES_COMP = "https://storage.googleapis.com/ml-auto-pipelines-bucket/components-yamls/line-reader-writer/kubeflow_component_spec.yaml"
+
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
 def print_text(text: str) -> str:
