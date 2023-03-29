@@ -84,11 +84,11 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     # END: Testing pasing inputs and outputs with Python function based components -> It works...
     #--------------------------
 
-    """
+
     # Create a custom training job from component
     read_lines_comp = kfp.components.load_component_from_url(url=URL_READ_LINES_COMP)  # Passing pipeline parameter as argument to consumer op
     custom_training_job_comp = create_custom_training_job_from_component(
-        read_lines_comp, #file_writer,
+        read_lines_comp(input_1: str, parameter_1: int), #file_writer,
         display_name = 'Custom Training Job -> with custom machine and GPU',
         machine_type = 'n1-standard-4', 
         accelerator_type='NVIDIA_TESLA_T4', # https://cloud.google.com/vertex-ai/docs/training/configure-compute#specifying_gpus
@@ -100,9 +100,9 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
         project='almacafe-ml-poc',
         location='us-central1',
     )
-    """
 
-    
+
+    """
     #--------------------------
     # START: Using Docker based defined component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1) 
@@ -113,6 +113,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
                                         parameter_1=file_writer_task.outputs["lines_to_read"])
     # END: Using Docker based defined component -> It works...
     #--------------------------
+    """
     
     
     # Condition task excecution
