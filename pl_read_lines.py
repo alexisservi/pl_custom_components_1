@@ -25,7 +25,7 @@ def print_text(text1: str, text2: str) -> str:
     return text1
 
 #---------------------------------------------------------------------------------------------------
-@dsl.component()
+@dsl.component() 
 def file_writer(lines_to_write_1: int,
                 out_file_1: OutputPath()) -> NamedTuple(
   'ExampleOutputs',
@@ -96,6 +96,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     # END: Testing pasing inputs and outputs with Python function based components -> It works...
     #--------------------------
     """
+
 
     """
     #--------------------------
