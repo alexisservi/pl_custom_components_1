@@ -122,7 +122,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     test_input_string = 'gs://ml-auto-pipelines-bucket/inputs/test_input_lines.txt'
     read_lines_task01 = read_lines_comp(input_1=file_writer_task.outputs["out_file_1"], # 
                                         parameter_1=file_writer_task.outputs["lines_to_read"])
-    # END: Using Docker based defined component -> It works...
+    # END: Using Docker based defined component -> It works... 
     #--------------------------
     
     
