@@ -98,7 +98,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     """
 
 
-    """
+    
     #--------------------------
     # START: Create a custom training job from component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
@@ -111,9 +111,9 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     )
     # END: Create a custom training job from component
     #--------------------------
+    
+
     """
-
-
     #--------------------------
     # START: Using Docker based defined component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1) 
@@ -124,6 +124,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
                                         parameter_1=file_writer_task.outputs["lines_to_read"])
     # END: Using Docker based defined component -> It works... 
     #--------------------------
+    """
     
     
     """
