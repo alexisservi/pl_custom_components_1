@@ -20,8 +20,9 @@ URL_READ_LINES_COMP = "https://storage.googleapis.com/ml-auto-pipelines-bucket/c
 
 #---------------------------------------------------------------------------------------------------
 @dsl.component()
-def print_text(text1: str, text2: str) -> str:
-    print("text1: {}; text2: {}".format(text1, text2))
+def print_text(text: str) -> str:
+    #print("text1: {}; text2: {}".format(text1, text2))
+    print("text: {}".format(text))
     return text1
 
 #---------------------------------------------------------------------------------------------------
