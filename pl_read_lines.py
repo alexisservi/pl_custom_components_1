@@ -85,7 +85,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
                                output_path_1: str = 'gs://ml-auto-pipelines-bucket/inputs/test_output_lines.txt',
                                lines_to_write_1: int = 37):
 
-    """
+    
     #--------------------------
     # START: Testing pasing inputs and outputs with Python function based components
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
@@ -95,10 +95,10 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     
     # END: Testing pasing inputs and outputs with Python function based components -> It works...
     #--------------------------
-    """
-
-
     
+
+
+    """
     #--------------------------
     # START: Create a custom training job from component
     file_writer_task = file_writer(lines_to_write_1=lines_to_write_1)
@@ -111,6 +111,7 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     )
     # END: Create a custom training job from component
     #--------------------------
+    """
     
 
     """
@@ -127,14 +128,14 @@ def custom_components_pipeline(input_path_1: str = 'gs://ml-auto-pipelines-bucke
     """
     
     
-    """
+    
     #--------------------------
     # START: Condition task excecution
     with dsl.Condition(file_reader_task.outputs["publish_model_cmd"] == "Publish model"):
         conditional_task = print_text(text=file_reader_task.outputs["publish_model_cmd"])
     # END: Condition task excecution
     #--------------------------
-    """
+    
     
 #------------------------------------------
 # Compile pipeline
